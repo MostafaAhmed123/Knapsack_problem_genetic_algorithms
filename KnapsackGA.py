@@ -1,5 +1,6 @@
 from knapsack import *
 import random
+import numpy as np
 
 def generatePopulation(size, items):
     population = []
@@ -24,7 +25,6 @@ def claculateFitness(chromosome, knapsack):
     return sumOfValues
 
 
-# TODO cleanup that shit
 def selection(generation, knapsack):
     fitnesses = []
     n = 10
@@ -54,6 +54,14 @@ def selection(generation, knapsack):
 
     return selected_parents
 
+def singlePointCrossover(A, B, x):
+    aChild = np.append(A[:x], B[x:])
+    bChild = np.append(B[:x], A[x:])
+    return aChild, bChild
+
+
+
+
 
 
 if __name__ == "__main__":
@@ -64,4 +72,4 @@ if __name__ == "__main__":
     x.values.append(5)
     x.weights.append(6)
     x.values.append(6)
-    print(selection(generatePopulation(5, x), x))
+    print(crossover(x))
