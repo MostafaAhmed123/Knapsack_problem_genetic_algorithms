@@ -72,4 +72,4 @@ def mutate(chromosome):
 
 
 def replace(population, child1, child2):
-    return [child1, child2] + population[2:]
+    return population[2:] + [child1, child2]
