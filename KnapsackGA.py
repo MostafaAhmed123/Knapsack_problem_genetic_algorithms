@@ -53,3 +53,23 @@ def selection(generation, knapsack):
                 break
 
     return selected_parents
+
+
+def crossover(parent1, parent2):
+    crossoverPoint = random.randint(0, len(parent1) - 1)
+    child1 = parent1[0:crossoverPoint] + parent2[crossoverPoint:]
+    child2 = parent2[0:crossoverPoint] + parent1[crossoverPoint:]
+    return child1, child2
+
+
+def mutate(chromosome):
+    point = random.randint(0, len(chromosome) - 1)
+    if chromosome[point] == 0:
+        chromosome[point] = 1
+    else:
+        chromosome[point] = 0
+    return chromosome
+
+
+def replace(population, child1, child2):
+    return [child1, child2] + population[2:]
