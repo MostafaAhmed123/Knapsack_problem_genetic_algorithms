@@ -20,7 +20,7 @@ def calculateFitness(chromosome, knapsack):
             sumOfValues += knapsack.values[i]
 
     if sumOfWeights > knapsack.capacity:
-        return 0  # Return 0 for invalid solutions (weights exceed the capacity)
+        return 0  
 
     return sumOfValues
 
@@ -32,10 +32,8 @@ def selection(generation, knapsack):
         fitness = calculateFitness(generation[i], knapsack)
         fitnesses.append([fitness, i])
 
-    # Sort fitnesses in descending order based on fitness value
     fitnesses.sort(key=lambda x: x[0], reverse=True)
 
-    # Calculate cumulative fitness
     total_fitness = sum(fitness for fitness, _ in fitnesses)
     cumulative_fitness = 0
 
@@ -81,13 +79,13 @@ if __name__ == "__main__":
                   [4, 5, 6, 19, 2],
                   15)
 
-    numGenerations = 100  # Increase the number of generations for better results
+    numGenerations = 100
     populationSize = 100
-    Cp = 0.7  # Increase the crossover probability for better exploration
+    Cp = 0.7
     initial_population = generatePopulation(populationSize, ks)
 
     BestSolution = None
-    bestFitness = 0  # Initialize with 0 instead of negative infinity
+    bestFitness = 0
 
     for generation in range(numGenerations):
         selectedParents = selection(initial_population, ks)
