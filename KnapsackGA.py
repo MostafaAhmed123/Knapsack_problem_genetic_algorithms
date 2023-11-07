@@ -77,9 +77,9 @@ def replacement(population, size, knapsack):
     return population
 
 if __name__ == "__main__":
-    ks = Knapsack(values=[1, 15, 30, 10, 50],
-                  weights=[4, 5, 6, 19, 2],
-                  capacity=15)
+    ks = Knapsack([1, 15, 30, 10, 50],
+                  [4, 5, 6, 19, 2],
+                  15)
 
     numGenerations = 100  # Increase the number of generations for better results
     populationSize = 100
@@ -119,3 +119,5 @@ if __name__ == "__main__":
 
     print("Best Solution:", BestSolution)
     print("Best Fitness:", bestFitness)
+
+
