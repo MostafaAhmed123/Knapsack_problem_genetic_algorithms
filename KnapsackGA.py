@@ -87,7 +87,7 @@ def replacement(population, size, knapsack):
     return population
 
 
-def solve(ks):
+def GA(ks):
     numGenerations = 100
     populationSize = 100
     Cp = 0.7
@@ -147,7 +147,7 @@ if __name__ == "__main__":
                     weights.append(weight)
                     values.append(value)
                 ks = Knapsack(values, weights, knapsack_size)
-                bestSolution, bestFitness = solve(ks)
+                bestSolution, bestFitness = GA(ks)
                 i += 1
                 print("Test Case Number: ", i)
                 print("Number of selected items = ", bestSolution.count(1))
@@ -157,7 +157,9 @@ if __name__ == "__main__":
                         totalWeight += weights[j]
                 print("Total Value = ", bestFitness)
                 print("Total weight = ", totalWeight)
+                k = 0
                 for j in range(len(bestSolution)):
                     if bestSolution[j] == 1:
-                        print(weights[j], end=" ")
-                        print(values[j])
+                        k += 1
+                        print("Item Number = ", k, " Weight = ", weights[j], end=" ")
+                        print("Value = ", values[j])
