@@ -1,5 +1,5 @@
 class knapsack(object):
-    def __init__(self, capacity):
+    def __init__(self, values, weights, capacity):
         self.capacity = capacity
-        self.weights = []
-        self.values = []
+        self.weights = values
+        self.values = weights
