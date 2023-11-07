@@ -1,6 +1,7 @@
 from knapsack import *
 import random
 
+
 def generatePopulation(size, items):
     population = []
     genes = [0, 1]
@@ -11,6 +12,7 @@ def generatePopulation(size, items):
         population.append(chromosome)
     return population
 
+
 def calculateFitness(chromosome, knapsack):
     sumOfWeights = 0
     sumOfValues = 0
@@ -20,9 +22,10 @@ def calculateFitness(chromosome, knapsack):
             sumOfValues += knapsack.values[i]
 
     if sumOfWeights > knapsack.capacity:
-        return 0  
+        return 0
 
     return sumOfValues
+
 
 def selection(generation, knapsack):
     fitnesses = []
@@ -51,11 +54,13 @@ def selection(generation, knapsack):
 
     return selected_parents
 
+
 def crossover(parent1, parent2):
     crossoverPoint = random.randint(0, len(parent1) - 1)
     child1 = parent1[0:crossoverPoint] + parent2[crossoverPoint:]
     child2 = parent2[0:crossoverPoint] + parent1[crossoverPoint:]
     return child1, child2
+
 
 def mutate(chromosome):
     Mc = 0.05
@@ -65,20 +70,24 @@ def mutate(chromosome):
             chromosome[i] = 1 - chromosome[i]
     return chromosome
 
+
 def replacement(population, size, knapsack):
+    generationFitness = [
+        calculateFitness(chromosome, knapsack) for chromosome in population
+    ]
 
-    generationFitness = [calculateFitness(chromosome, knapsack) for chromosome in population]
-
-    population = [x for _, x in sorted(zip(generationFitness, population), key=lambda pair: pair[0], reverse=True)]
+    population = [
+        x
+        for _, x in sorted(
+            zip(generationFitness, population), key=lambda pair: pair[0], reverse=True
+        )
+    ]
 
     population = population[0:size]
     return population
 
-if __name__ == "__main__":
-    ks = Knapsack([1, 15, 30, 10, 50],
-                  [4, 5, 6, 19, 2],
-                  15)
 
+def solve(ks):
     numGenerations = 100
     populationSize = 100
     Cp = 0.7
@@ -108,14 +117,48 @@ if __name__ == "__main__":
 
         initial_population = replacement(initial_population, populationSize, ks)
 
-        generationFitness = [calculateFitness(chromosome, ks) for chromosome in initial_population]
+        generationFitness = [
+            calculateFitness(chromosome, ks) for chromosome in initial_population
+        ]
 
         maxFitness = max(generationFitness)
         if maxFitness > bestFitness:
             bestFitness = maxFitness
             BestSolution = initial_population[generationFitness.index(maxFitness)]
 
-    print("Best Solution:", BestSolution)
-    print("Best Fitness:", bestFitness)
+    return BestSolution, bestFitness
 
 
+if __name__ == "__main__":
+    Input = input("enter the file name with .txt extension: ")
+    with open(Input, "r") as file:
+        num_test_cases = int(file.readline().strip())
+        print(num_test_cases)
+        i = 0
+        while i < num_test_cases:
+            line = file.readline().strip()
+            if line != "":
+                knapsack_size = int(line)
+                line = file.readline().strip()
+                num_items = int(line)
+                weights = []
+                values = []
+                for _ in range(num_items):
+                    weight, value = map(int, file.readline().split())
+                    weights.append(weight)
+                    values.append(value)
+                ks = Knapsack(values, weights, knapsack_size)
+                bestSolution, bestFitness = solve(ks)
+                i += 1
+                print("Test Case Number: ", i)
+                print("Number of selected items = ", bestSolution.count(1))
+                totalWeight = 0
+                for j in range(len(bestSolution)):
+                    if bestSolution[j] == 1:
+                        totalWeight += weights[j]
+                print("Total Value = ", bestFitness)
+                print("Total weight = ", totalWeight)
+                for j in range(len(bestSolution)):
+                    if bestSolution[j] == 1:
+                        print(weights[j], end=" ")
+                        print(values[j])
