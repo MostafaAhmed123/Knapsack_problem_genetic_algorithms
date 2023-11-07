@@ -133,7 +133,6 @@ if __name__ == "__main__":
     Input = input("enter the file name with .txt extension: ")
     with open(Input, "r") as file:
         num_test_cases = int(file.readline().strip())
-        print(num_test_cases)
         i = 0
         while i < num_test_cases:
             line = file.readline().strip()
